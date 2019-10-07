@@ -1,26 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {}
+  
+  componentDidMount() {
+    this.setState({tasks: ['cook', 'clean', 'walk the dog']})
+  }
+
+  addItemToList() {
+    const {tasks, taskBox} = this.state;
+
+    this.setState({tasks: [...tasks, taskBox]});
+    this.setState({taskBox: ''});
+  }
+
+  updateTaskBox(event) {
+    this.setState({taskBox: event.target.value})
+  }
+
+  deleteTask(task) {
+    const {tasks} = this.state;
+    
+    this.setState({tasks: tasks.filter((_task) => {
+      if(task !== _task) {
+        return true;
+      }
+    })})
+  }
+
+  render() {
+    const {tasks, taskBox} = this.state;
+
+    return (
+      <div className="App">
+        <h1>ToDo App</h1>
+        <input onChange={(e) => this.updateTaskBox(e)} value={taskBox} />&nbsp;
+        <button onClick={() => this.addItemToList()}>Submit</button>
+
+        {tasks && tasks.map((task) => (
+          <p>{task} <button onClick={() => this.deleteTask(task)}>Delete</button></p>
+        ))}
+      </div>
+    )
+  }
 }
 
 export default App;
