@@ -4,7 +4,7 @@ import './App.css';
 
 class App extends Component {
   state = {}
-  
+
   componentDidMount() {
     this.setState({tasks: ['cook', 'clean', 'walk the dog']})
   }
@@ -30,18 +30,24 @@ class App extends Component {
     })})
   }
 
+
   render() {
     const {tasks, taskBox} = this.state;
 
     return (
       <div className="App">
         <h1>ToDo App</h1>
-        <input onChange={(e) => this.updateTaskBox(e)} value={taskBox} />&nbsp;
+        <input placeholder="Input a Task..." onChange={(e) => this.updateTaskBox(e)} value={taskBox} />&nbsp;
         <button onClick={() => this.addItemToList()}>Submit</button>
 
         {tasks && tasks.map((task) => (
           <p>{task} <button onClick={() => this.deleteTask(task)}>Delete</button></p>
         ))}
+
+        {tasks && tasks.map((tasks) => (
+          <h2>Total: {this.state.tasks.length}</h2>
+        ))}
+        
       </div>
     )
   }
